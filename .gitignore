@@ -1,2 +1,3 @@
 ./couchbase-cli
 ./couchbase-python-client
+.devcontainer/devcontainer.json
