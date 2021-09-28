@@ -5,3 +5,5 @@ Pipfile
 Pipfile.lock
 .vscode/launch.json
 __init__.py
+*zip
+
