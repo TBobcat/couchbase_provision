@@ -13,19 +13,19 @@ from vars import *
 
 
 
-pa = PasswordAuthenticator('Administrator', 'password')
-src_cluster = Cluster(my_cb_url, ClusterOptions(pa))
+pa = PasswordAuthenticator(admin, pwd)
+src_cluster = Cluster(source_url, ClusterOptions(pa))
 
 
 # put this into a function later
 # bucket = src_cluster.bucket('beer-sample')
 
-admin = Admin('Administrator', 'password', my_cb_ip)
+admin = Admin(admin, pwd, source_ip)
 
 src_user_mgr = UserManager(admin)
 src_users = src_user_mgr.get_all_users()
 
-
+## create a user manager for destination cluster
 dest_admin = Admin('Administrator', 'password', dest_ip)
 dest_user_mgr = UserManager(dest_admin)
 
@@ -49,6 +49,7 @@ for user_meta in src_users:
 
     # insert that user in destination cluster
     dest_user_mgr.upsert_user(
+                              # there's no way to migrate over user passwords, so this sets it to a temporary one
                               User(username=user_meta.user.username, roles=dest_role_list, password="password"),
                               UpsertUserOptions(domain_name="local")
     )
