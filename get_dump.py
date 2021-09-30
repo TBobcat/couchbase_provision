@@ -10,15 +10,13 @@ from couchbase.auth import AuthDomain
 from couchbase import *
 import json
 from vars import *
+import traceback
+import pprint
 
 
 
 pa = PasswordAuthenticator(admin, pwd)
 src_cluster = Cluster(source_url, ClusterOptions(pa))
-
-
-# put this into a function later
-# bucket = src_cluster.bucket('beer-sample')
 
 admin = Admin(admin, pwd, source_ip)
 
@@ -29,30 +27,46 @@ src_users = src_user_mgr.get_all_users()
 dest_admin = Admin('Administrator', 'password', dest_ip)
 dest_user_mgr = UserManager(dest_admin)
 
+# def get_src_users():
+#   return
 
-## print to make sure dest manager works 
-print(dest_user_mgr.get_all_users()) 
+# def get_src_groups():
+#   return usr_grps
 
-print("users are:\n")
+
+# def upsert_groups(user_groups):
+#   return
+
 for user_meta in src_users:
-  print(user_meta, "\n")
-  print(user_meta.user.username)
-  
+
   # print python obj to json
-  print(json.dumps(user_meta.raw_data, indent = 4))
+  print("source users are:\n\n", json.dumps(user_meta.raw_data, indent = 4))
+  dest_role_set =set()
+
+  if user_meta.domain.Local == 0:
+    for role_origin in user_meta.effective_roles:
+
+      dest_role = role_origin.role
+      print("DEST ROLE: \n\n", dest_role.as_dict())
+      dest_role_set.add(dest_role)
+      
+      try:
+      # insert that user in destination cluster
+        dest_user_mgr.upsert_user(
+                                  # there's no way to migrate over user passwords, so this sets it to a temporary one
+                                  User(username=user_meta.user.username, roles=dest_role_set, password="password"),
+                                  domain_name="local"
+        )
+      except Exception as e:
+        print( "EXCEPTION TRACE  PRINT:\n{}".format( "".join(traceback.format_exception(type(e), e, e.__traceback__))))
+
+  else:
+    continue
+
+
+
+
   
-  for role_origin in user_meta.effective_roles:
-    print(role_origin.role.to_server_str())
-    print(role_origin.role.name, role_origin.role.bucket, '\n')
-
-    dest_role_list = [ Role(name=role_origin.role.name, bucket=role_origin.role.bucket) ]
-
-    # insert that user in destination cluster
-    dest_user_mgr.upsert_user(
-                              # there's no way to migrate over user passwords, so this sets it to a temporary one
-                              User(username=user_meta.user.username, roles=dest_role_list, password="password"),
-                              UpsertUserOptions(domain_name="local")
-    )
 
 
 
