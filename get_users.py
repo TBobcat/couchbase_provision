@@ -47,7 +47,7 @@ def migrate_users(source_users):
       for role_origin in user_meta.effective_roles:
   
         dest_role = role_origin.role
-        print("DEST ROLE: \n\n", dest_role.as_dict(), "\n")
+        print("DEST. USER:\n\t", user_meta.user.username + ":\n\t", dest_role.as_dict(), "\n")
         dest_role_set.add(dest_role)
         
         # there's no way to migrate over user passwords, so this sets it to a temporary one
