@@ -6,6 +6,8 @@
 set -e
 
 export PATH=/opt/couchbase/bin:$PATH
+
+rm -rf /data/backup_migrate
 mkdir /data/backup_migrate
 
 # config backup folder and bakup repo for couchbase

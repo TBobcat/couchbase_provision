@@ -1,0 +1,2 @@
+export CB_REST_USERNAME=''
+export CB_REST_PASSWORD=''

@@ -7,3 +7,5 @@ Pipfile.lock
 __init__.py
 *zip
 
+.vscode/settings.json
+test_get_dump.py
