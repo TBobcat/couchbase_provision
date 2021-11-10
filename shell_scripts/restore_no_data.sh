@@ -1,8 +1,12 @@
 #!/bin/bash 
 # run script as a sudoer
 # script assumes there's only one backup in the gs bucket and restores from it
-# script nees cred.sh sourced to get credentials from exported environment variable
 
+### export credentials
+export CB_REST_USERNAME=''
+export CB_REST_PASSWORD=''
+
+## run script as a sudoer
 set -e
 
 export PATH=/opt/couchbase/bin:$PATH
