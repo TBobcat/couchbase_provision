@@ -3,6 +3,7 @@
 ### export credentials
 export CB_REST_USERNAME=''
 export CB_REST_PASSWORD=''
+export prd_bucket=''
 
 
 ## run script as a sudoer
@@ -22,6 +23,6 @@ cbbackupmgr backup -c 127.0.0.1 -u $CB_REST_USERNAME -p $CB_REST_PASSWORD -a /tm
 touch /tmp/backup_migrate/placeholder.txt
 
 # remove older backup, and upload the new one
-# put a text file in first run so rm command won't error out
-gsutil rm gs://cb_backup/**
-gsutil -m cp -r /tmp/backup_migrate/cluster gs://cb_backup
+# put a file in cloud storage bucket before the first run so rm command won't error out
+# gsutil rm gs://$prd_bucket/**
+gsutil -m cp -r /tmp/backup_migrate/cluster gs://$prd_bucket
