@@ -7,7 +7,7 @@ Buckets, views, indexes migration is done through shell scripts that essentially
 ## Prerequisites:
 
 ### Connections:
-* DBA laptop should be able to hit both staging, and production cluster ips. In addition, for the user migration script to work, all ports need to be opened [here.](https://docs.couchbase.com/server/current/install/install-ports.html) A firewall rule is specified in terraform, and can be modified to limite the source ip range that hits these ports.
+* DBA laptop should be able to hit both staging, and production cluster ips. In addition, for the user migration script to work, all ports need to be opened for Ingress as stated [here.](https://docs.couchbase.com/server/current/install/install-ports.html) A firewall rule is specified in terraform, and can be modified to limite the source ip range that hits these ports.
 
 ```
 resource "google_compute_firewall" "couchbase_fw" {
@@ -24,7 +24,7 @@ resource "google_compute_firewall" "couchbase_fw" {
     protocol = "tcp"
     ports = [
       // couchbase ui and cluster management ports
-      "21100", "21150", "21200",
+      "21100", "21150", "21200", "8091",
 
       // node to node
       "4369",
