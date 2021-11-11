@@ -47,6 +47,12 @@ resource "google_compute_firewall" "couchbase_fw" {
 }
 ```
 * Couchbase requires to set alternate address name for external ip api connection. More can be found [here.](https://docs.couchbase.com/php-sdk/current/howtos/managing-connections.html#alternate-addresses-and-custom-ports)
+This can be done through:
+```
+curl -v -X PUT -u admin_user:admin_user_pwd \
+http://server_ip:8091/node/controller/setupAlternateAddresses/external \
+-d hostname=server_ip
+```
 
 ### Other Prerequisits
 A GCP bucket to store the no data backup, and service accounts for both the staging cluster and new prod. cluster that have access to the bucket is required.
