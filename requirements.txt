@@ -1,0 +1,14 @@
+attrs==21.2.0
+couchbase==3.2.1
+durationpy==0.5
+iniconfig==1.1.1
+mypy-extensions==0.4.3
+packaging==21.2
+pluggy==1.0.0
+py==1.10.0
+pyparsing==2.4.7
+pyrsistent==0.18.0
+pytest==6.2.5
+six==1.15.0
+toml==0.10.2
+wrapt==1.12.1
